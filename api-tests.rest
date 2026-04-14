@@ -1,0 +1,47 @@
+@baseURL = http://localhost:8081
+
+### Health
+GET {{baseURL}}/
+
+### Organizers
+GET {{baseURL}}/organizers
+
+POST {{baseURL}}/organizers
+Content-Type: application/json
+
+{
+  "name": "Tech Club",
+  "email": "techclub@university.edu",
+  "phone": "555-123-4567"
+}
+
+PUT {{baseURL}}/organizers/6801234567890abcde123456
+Content-Type: application/json
+
+{
+  "phone": "555-999-0000"
+}
+
+DELETE {{baseURL}}/organizers/6801234567890abcde123456
+
+### Events
+GET {{baseURL}}/events
+
+POST {{baseURL}}/events
+Content-Type: application/json
+
+{
+  "title": "Hackathon 2026",
+  "date": "2026-05-10",
+  "location": "Engineering Building",
+  "organizerId": "6801234567890abcde123456"
+}
+
+PUT {{baseURL}}/events/6801234567890abcde123457
+Content-Type: application/json
+
+{
+  "location": "Innovation Lab"
+}
+
+DELETE {{baseURL}}/events/6801234567890abcde123457
