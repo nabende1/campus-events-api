@@ -7,7 +7,7 @@ const defaultSchemes = renderUrl ? ['https'] : ['http'];
 const doc = {
   info: {
     title: 'Campus Events API',
-    description: 'API for managing events and organizers',
+    description: 'API for managing events, organizers, venues, and registrations',
     version: '1.0.0'
   },
   host: process.env.SWAGGER_HOST || derivedHost || 'localhost:8081',
@@ -18,8 +18,19 @@ const doc = {
   produces: ['application/json'],
   tags: [
     { name: 'Events', description: 'Event CRUD operations' },
-    { name: 'Organizers', description: 'Organizer CRUD operations' }
+    { name: 'Organizers', description: 'Organizer CRUD operations' },
+    { name: 'Venues', description: 'Venue CRUD operations' },
+    { name: 'Registrations', description: 'Registration CRUD operations' }
   ],
+  securityDefinitions: {
+    OAuth2: {
+      type: 'oauth2',
+      flow: 'accessCode',
+      authorizationUrl: '/auth/github',
+      tokenUrl: '/auth/github/callback',
+      scopes: {}
+    }
+  },
   definitions: {
     Event: {
       title: 'Hackathon 2026',
@@ -31,11 +42,30 @@ const doc = {
       name: 'Tech Club',
       email: 'techclub@university.edu',
       phone: '555-123-4567'
+    },
+    Venue: {
+      name: 'Innovation Hall',
+      building: 'Science Complex',
+      capacity: 180
+    },
+    Registration: {
+      eventId: '6801234567890abcde123456',
+      attendeeName: 'Jane Doe',
+      attendeeEmail: 'jane.doe@school.edu',
+      status: 'registered'
     }
   }
 };
 
 const outputFile = './swagger-output.json';
-const endpointsFiles = ['./server.js', './routes/index.js', './routes/events.js', './routes/organizers.js'];
+const endpointsFiles = [
+  './server.js',
+  './routes/auth.js',
+  './routes/index.js',
+  './routes/events.js',
+  './routes/organizers.js',
+  './routes/venues.js',
+  './routes/registrations.js'
+];
 
 swaggerAutogen(outputFile, endpointsFiles, doc);

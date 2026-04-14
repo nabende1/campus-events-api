@@ -1,8 +1,10 @@
 # Campus Events API
 
-A standalone Node.js + Express API project with two collections:
+A standalone Node.js + Express API project with four collections:
 - `organizers`
 - `events`
+- `venues`
+- `registrations`
 
 ## Run locally
 
@@ -18,6 +20,27 @@ A standalone Node.js + Express API project with two collections:
 
 - Organizers: `GET/POST /organizers`, `GET/PUT/DELETE /organizers/:id`
 - Events: `GET/POST /events`, `GET/PUT/DELETE /events/:id`
+- Venues: `GET/POST /venues`, `GET/PUT/DELETE /venues/:id`
+- Registrations: `GET/POST /registrations`, `GET/PUT/DELETE /registrations/:id`
+
+## OAuth
+
+- Login route: `/auth/github`
+- Callback route: `/auth/github/callback`
+- Logout route: `/auth/logout`
+- Session status: `/auth`
+
+POST and PUT endpoints are protected by OAuth session authentication by default.
+
+For local testing without OAuth setup, set `AUTH_DISABLED=true` in `.env`.
+
+## Testing
+
+Run unit tests for GET endpoints:
+- `npm test`
+
+Seed sample data:
+- `npm run seed`
 
 ## API Documentation
 

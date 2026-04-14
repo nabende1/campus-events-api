@@ -66,6 +66,51 @@ const buildSampleEvents = (organizerIds) => [
   }
 ];
 
+const sampleVenues = [
+  {
+    name: 'Innovation Hall',
+    building: 'Science Complex',
+    capacity: 180
+  },
+  {
+    name: 'Student Hub Theater',
+    building: 'Student Center',
+    capacity: 300
+  },
+  {
+    name: 'Library Conference Room',
+    building: 'Main Library',
+    capacity: 60
+  }
+];
+
+const buildSampleRegistrations = (eventIds) => [
+  {
+    eventId: eventIds[0],
+    attendeeName: 'Alice Kato',
+    attendeeEmail: 'alice.kato@campus.edu',
+    status: 'registered'
+  },
+  {
+    eventId: eventIds[1],
+    attendeeName: 'Brian Nabende',
+    attendeeEmail: 'brian.nabende@campus.edu',
+    status: 'registered'
+  },
+  {
+    eventId: eventIds[2],
+    attendeeName: 'Carol Mirembe',
+    attendeeEmail: 'carol.mirembe@campus.edu',
+    status: 'waitlisted'
+  },
+  {
+    eventId: eventIds[3],
+    attendeeName: 'David Ssenfuma',
+    attendeeEmail: 'david.ssenfuma@campus.edu',
+    status: 'cancelled'
+  }
+];
+
 const seed = async () => {
   const uri = process.env.MONGODB_URI;
 
@@ -87,7 +132,11 @@ const seed = async () => {
 
     const organizersCollection = db.collection('organizers');
     const eventsCollection = db.collection('events');
+    const venuesCollection = db.collection('venues');
+    const registrationsCollection = db.collection('registrations');
 
+    await registrationsCollection.deleteMany({});
+    await venuesCollection.deleteMany({});
     await eventsCollection.deleteMany({});
     await organizersCollection.deleteMany({});
 
@@ -96,8 +145,15 @@ const seed = async () => {
 
     const sampleEvents = buildSampleEvents(organizerIds);
     const eventInsert = await eventsCollection.insertMany(sampleEvents);
+    const eventIds = Object.values(eventInsert.insertedIds).map((id) => id.toString());
 
-    console.log(`Seed complete: ${organizerIds.length} organizers, ${Object.keys(eventInsert.insertedIds).length} events`);
+    const venueInsert = await venuesCollection.insertMany(sampleVenues);
+    const sampleRegistrations = buildSampleRegistrations(eventIds);
+    const registrationInsert = await registrationsCollection.insertMany(sampleRegistrations);
+
+    console.log(
+      `Seed complete: ${organizerIds.length} organizers, ${Object.keys(eventInsert.insertedIds).length} events, ${Object.keys(venueInsert.insertedIds).length} venues, ${Object.keys(registrationInsert.insertedIds).length} registrations`
+    );
   } finally {
     await client.close();
   }
