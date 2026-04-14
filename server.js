@@ -9,8 +9,19 @@ const mongodb = require('./data/database');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 3000;
 const swaggerDocument = require('./swagger-output.json');
+
+const renderUrl = process.env.RENDER_EXTERNAL_URL;
+const configuredSwaggerHost = process.env.SWAGGER_HOST;
+const derivedHost = renderUrl ? renderUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') : null;
+swaggerDocument.host = configuredSwaggerHost || derivedHost || swaggerDocument.host;
+
+if (process.env.SWAGGER_SCHEMES) {
+  swaggerDocument.schemes = process.env.SWAGGER_SCHEMES.split(',').map((scheme) => scheme.trim());
+} else if (renderUrl) {
+  swaggerDocument.schemes = ['https'];
+}
 
 app.use(cors());
 app.use(express.json());

@@ -1,15 +1,19 @@
 const swaggerAutogen = require('swagger-autogen')();
 
+const renderUrl = process.env.RENDER_EXTERNAL_URL;
+const derivedHost = renderUrl ? renderUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') : null;
+const defaultSchemes = renderUrl ? ['https'] : ['http'];
+
 const doc = {
   info: {
     title: 'Campus Events API',
     description: 'API for managing events and organizers',
     version: '1.0.0'
   },
-  host: process.env.SWAGGER_HOST || 'localhost:8081',
+  host: process.env.SWAGGER_HOST || derivedHost || 'localhost:8081',
   schemes: process.env.SWAGGER_SCHEMES
     ? process.env.SWAGGER_SCHEMES.split(',').map((scheme) => scheme.trim())
-    : ['http'],
+    : defaultSchemes,
   consumes: ['application/json'],
   produces: ['application/json'],
   tags: [
