@@ -30,7 +30,13 @@ beforeEach(() => {
       title: 'Hack Night',
       date: '2026-05-03',
       location: 'Engineering Lab A',
-      organizerId: '6801234567890abcde123401'
+      organizerId: '6801234567890abcde123401',
+      venueId: '6801234567890abcde123461',
+      category: 'hackathon',
+      startTime: '17:30',
+      endTime: '20:30',
+      isVirtual: false,
+      description: 'Kickoff coding event for campus developers.'
     }
   ]);
 
@@ -85,6 +91,7 @@ describe('GET endpoint coverage for all collections', () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('location', 'Engineering Lab A');
+    expect(response.body).toHaveProperty('category', 'hackathon');
   });
 
   test('GET /organizers returns organizers list', async () => {

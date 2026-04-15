@@ -39,30 +39,54 @@ const sampleOrganizers = [
   }
 ];
 
-const buildSampleEvents = (organizerIds) => [
+const buildSampleEvents = (organizerIds, venueIds) => [
   {
     title: 'Hack Night Kickoff',
     date: '2026-05-03',
     location: 'Engineering Lab A',
-    organizerId: organizerIds[0]
+    organizerId: organizerIds[0],
+    venueId: venueIds[0],
+    category: 'hackathon',
+    startTime: '17:30',
+    endTime: '20:30',
+    isVirtual: false,
+    description: 'Hands-on kickoff event for student developers and mentors.'
   },
   {
     title: 'AI Career Panel',
     date: '2026-05-10',
     location: 'Main Auditorium',
-    organizerId: organizerIds[1]
+    organizerId: organizerIds[1],
+    venueId: venueIds[1],
+    category: 'panel',
+    startTime: '14:00',
+    endTime: '16:00',
+    isVirtual: false,
+    description: 'Industry speakers share AI career paths and hiring expectations.'
   },
   {
     title: 'Resume Clinic',
     date: '2026-05-18',
     location: 'Library Room 204',
-    organizerId: organizerIds[2]
+    organizerId: organizerIds[2],
+    venueId: venueIds[2],
+    category: 'career',
+    startTime: '10:00',
+    endTime: '12:00',
+    isVirtual: true,
+    description: 'One-on-one resume feedback for internship and full-time roles.'
   },
   {
     title: 'Startup Pitch Practice',
     date: '2026-05-25',
     location: 'Innovation Hub',
-    organizerId: organizerIds[1]
+    organizerId: organizerIds[1],
+    venueId: venueIds[0],
+    category: 'networking',
+    startTime: '18:00',
+    endTime: '20:00',
+    isVirtual: false,
+    description: 'Pitch rehearsal event with peer feedback and networking.'
   }
 ];
 
@@ -143,11 +167,13 @@ const seed = async () => {
     const organizerInsert = await organizersCollection.insertMany(sampleOrganizers);
     const organizerIds = Object.values(organizerInsert.insertedIds).map((id) => id.toString());
 
-    const sampleEvents = buildSampleEvents(organizerIds);
+    const venueInsert = await venuesCollection.insertMany(sampleVenues);
+    const venueIds = Object.values(venueInsert.insertedIds).map((id) => id.toString());
+
+    const sampleEvents = buildSampleEvents(organizerIds, venueIds);
     const eventInsert = await eventsCollection.insertMany(sampleEvents);
     const eventIds = Object.values(eventInsert.insertedIds).map((id) => id.toString());
 
-    const venueInsert = await venuesCollection.insertMany(sampleVenues);
     const sampleRegistrations = buildSampleRegistrations(eventIds);
     const registrationInsert = await registrationsCollection.insertMany(sampleRegistrations);
 

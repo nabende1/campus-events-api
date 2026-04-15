@@ -126,11 +126,8 @@
       "get": {
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -139,8 +136,8 @@
       "get": {
         "description": "",
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -149,8 +146,8 @@
       "get": {
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -186,6 +183,24 @@
                   "example": "any"
                 },
                 "organizerId": {
+                  "example": "any"
+                },
+                "venueId": {
+                  "example": "any"
+                },
+                "category": {
+                  "example": "any"
+                },
+                "startTime": {
+                  "example": "any"
+                },
+                "endTime": {
+                  "example": "any"
+                },
+                "isVirtual": {
+                  "example": "any"
+                },
+                "description": {
                   "example": "any"
                 }
               }
@@ -259,6 +274,24 @@
                   "example": "any"
                 },
                 "organizerId": {
+                  "example": "any"
+                },
+                "venueId": {
+                  "example": "any"
+                },
+                "category": {
+                  "example": "any"
+                },
+                "startTime": {
+                  "example": "any"
+                },
+                "endTime": {
+                  "example": "any"
+                },
+                "isVirtual": {
+                  "example": "any"
+                },
+                "description": {
                   "example": "any"
                 }
               }
@@ -889,6 +922,30 @@
         "organizerId": {
           "type": "string",
           "example": "6801234567890abcde123456"
+        },
+        "venueId": {
+          "type": "string",
+          "example": "6801234567890abcde123466"
+        },
+        "category": {
+          "type": "string",
+          "example": "hackathon"
+        },
+        "startTime": {
+          "type": "string",
+          "example": "17:30"
+        },
+        "endTime": {
+          "type": "string",
+          "example": "20:30"
+        },
+        "isVirtual": {
+          "type": "boolean",
+          "example": false
+        },
+        "description": {
+          "type": "string",
+          "example": "Hands-on coding challenge with mentor support and prizes."
         }
       }
     },

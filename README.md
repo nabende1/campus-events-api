@@ -6,6 +6,10 @@ A standalone Node.js + Express API project with four collections:
 - `venues`
 - `registrations`
 
+The `events` collection stores 9+ fields per document (title, date, location, organizerId, venueId,
+category, startTime, endTime, isVirtual, and optional description), satisfying the final-project
+requirement for at least one collection with 7 fields or more.
+
 ## Run locally
 
 1. Install dependencies:

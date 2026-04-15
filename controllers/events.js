@@ -1,7 +1,19 @@
 const { ObjectId } = require('mongodb');
 const database = require('../data/database');
 
-const requiredFields = ['title', 'date', 'location', 'organizerId'];
+const requiredFields = [
+  'title',
+  'date',
+  'location',
+  'organizerId',
+  'venueId',
+  'category',
+  'startTime',
+  'endTime',
+  'isVirtual'
+];
+const allowedCategories = ['workshop', 'panel', 'networking', 'hackathon', 'career'];
+const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
 const validatePayload = (payload, requireAll = false) => {
   if (requireAll) {
@@ -17,6 +29,36 @@ const validatePayload = (payload, requireAll = false) => {
 
   if (payload.organizerId && !ObjectId.isValid(payload.organizerId)) {
     return 'organizerId must be a valid MongoDB ObjectId';
+  }
+
+  if (payload.venueId && !ObjectId.isValid(payload.venueId)) {
+    return 'venueId must be a valid MongoDB ObjectId';
+  }
+
+  if (payload.category && !allowedCategories.includes(payload.category)) {
+    return `category must be one of: ${allowedCategories.join(', ')}`;
+  }
+
+  if (payload.startTime && !timePattern.test(payload.startTime)) {
+    return 'startTime must be in HH:MM 24-hour format';
+  }
+
+  if (payload.endTime && !timePattern.test(payload.endTime)) {
+    return 'endTime must be in HH:MM 24-hour format';
+  }
+
+  if (
+    payload.startTime &&
+    payload.endTime &&
+    timePattern.test(payload.startTime) &&
+    timePattern.test(payload.endTime) &&
+    payload.endTime <= payload.startTime
+  ) {
+    return 'endTime must be later than startTime';
+  }
+
+  if (payload.isVirtual !== undefined && typeof payload.isVirtual !== 'boolean') {
+    return 'isVirtual must be a boolean';
   }
 
   return null;
@@ -56,7 +98,13 @@ const create = async (req, res) => {
       title: req.body.title,
       date: req.body.date,
       location: req.body.location,
-      organizerId: req.body.organizerId
+      organizerId: req.body.organizerId,
+      venueId: req.body.venueId,
+      category: req.body.category,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+      isVirtual: req.body.isVirtual,
+      description: req.body.description || ''
     };
 
     const validationError = validatePayload(payload, true);
@@ -81,7 +129,13 @@ const update = async (req, res) => {
       ...(req.body.title !== undefined && { title: req.body.title }),
       ...(req.body.date !== undefined && { date: req.body.date }),
       ...(req.body.location !== undefined && { location: req.body.location }),
-      ...(req.body.organizerId !== undefined && { organizerId: req.body.organizerId })
+      ...(req.body.organizerId !== undefined && { organizerId: req.body.organizerId }),
+      ...(req.body.venueId !== undefined && { venueId: req.body.venueId }),
+      ...(req.body.category !== undefined && { category: req.body.category }),
+      ...(req.body.startTime !== undefined && { startTime: req.body.startTime }),
+      ...(req.body.endTime !== undefined && { endTime: req.body.endTime }),
+      ...(req.body.isVirtual !== undefined && { isVirtual: req.body.isVirtual }),
+      ...(req.body.description !== undefined && { description: req.body.description })
     };
 
     if (Object.keys(payload).length === 0) {

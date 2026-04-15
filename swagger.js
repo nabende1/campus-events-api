@@ -36,7 +36,13 @@ const doc = {
       title: 'Hackathon 2026',
       date: '2026-05-10',
       location: 'Engineering Building',
-      organizerId: '6801234567890abcde123456'
+      organizerId: '6801234567890abcde123456',
+      venueId: '6801234567890abcde123466',
+      category: 'hackathon',
+      startTime: '17:30',
+      endTime: '20:30',
+      isVirtual: false,
+      description: 'Hands-on coding challenge with mentor support and prizes.'
     },
     Organizer: {
       name: 'Tech Club',
