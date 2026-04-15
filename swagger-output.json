@@ -31,8 +31,9 @@
   "securityDefinitions": {
     "OAuth2": {
       "type": "oauth2",
-      "flow": "implicit",
+      "flow": "authorizationCode",
       "authorizationUrl": "http://localhost:3000/auth/github",
+      "tokenUrl": "http://localhost:3000/auth/github/callback",
       "scopes": {
         "user:email": "Access user email"
       }

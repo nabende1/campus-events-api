@@ -25,8 +25,9 @@ const doc = {
   securityDefinitions: {
     OAuth2: {
       type: 'oauth2',
-      flow: 'implicit',
+      flow: 'authorizationCode',
       authorizationUrl: `${renderUrl ? renderUrl.replace(/\/$/, '') : 'http://localhost:3000'}/auth/github`,
+      tokenUrl: `${renderUrl ? renderUrl.replace(/\/$/, '') : 'http://localhost:3000'}/auth/github/callback`,
       scopes: { 'user:email': 'Access user email' }
     }
   },
