@@ -10,8 +10,8 @@ const initializePassport = require('./config/passport');
 
 const app = express();
 const swaggerDocument = require('./swagger-output.json');
-
 const renderUrl = process.env.RENDER_EXTERNAL_URL;
+
 const configuredSwaggerHost = process.env.SWAGGER_HOST;
 const derivedHost = renderUrl ? renderUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') : null;
 swaggerDocument.host = configuredSwaggerHost || derivedHost || swaggerDocument.host;
@@ -24,6 +24,8 @@ if (process.env.SWAGGER_SCHEMES) {
 
 app.use(cors());
 app.use(express.json());
+const isProduction = process.env.NODE_ENV === 'production' || !!renderUrl;
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'campus-events-dev-secret',
@@ -31,7 +33,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProduction,
       sameSite: 'lax'
     }
   })
